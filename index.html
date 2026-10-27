@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TaskFlow · Organização acadêmica em um único fluxo</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="logo" href="./" aria-label="TaskFlow">TASKFLOW<span class="cursor" aria-hidden="true">_</span></a>
+    <div id="user-box" class="user-box" hidden>
+      <span id="user-name" class="user-name"></span>
+      <button type="button" id="btn-logout" class="btn btn-ghost">Sair</button>
+    </div>
+  </header>
+
+  <main id="main" class="container">
+    <p id="banner" class="banner" role="alert" hidden></p>
+
+    <!-- ===== Autenticação: entrar / criar conta ===== -->
+    <section id="view-auth" class="view" aria-labelledby="auth-title">
+      <p class="eyebrow">// organização acadêmica em um único fluxo</p>
+      <h1 id="auth-title" tabindex="-1">Entre para organizar suas tarefas</h1>
+
+      <div class="tabs" role="tablist" aria-label="Acesso">
+        <button type="button" role="tab" id="tab-login" class="tab" aria-selected="true" aria-controls="form-login" data-tab="login">Entrar</button>
+        <button type="button" role="tab" id="tab-register" class="tab" aria-selected="false" aria-controls="form-register" data-tab="register">Criar conta</button>
+      </div>
+
+      <form id="form-login" class="form" role="tabpanel" aria-labelledby="tab-login" novalidate>
+        <label for="login-email">E-mail</label>
+        <input id="login-email" name="email" type="email" autocomplete="email" required>
+
+        <label for="login-senha">Senha</label>
+        <input id="login-senha" name="senha" type="password" autocomplete="current-password" required>
+
+        <p id="login-error" class="error" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary">ENTRAR</button>
+      </form>
+
+      <form id="form-register" class="form" role="tabpanel" aria-labelledby="tab-register" novalidate hidden>
+        <label for="reg-nome">Nome</label>
+        <input id="reg-nome" name="nome" type="text" autocomplete="name" maxlength="60" required>
+
+        <label for="reg-email">E-mail</label>
+        <input id="reg-email" name="email" type="email" autocomplete="email" required>
+
+        <label for="reg-senha">Senha <span class="hint">(mínimo 8 caracteres)</span></label>
+        <input id="reg-senha" name="senha" type="password" autocomplete="new-password" minlength="8" required>
+
+        <label for="reg-senha2">Confirmar senha</label>
+        <input id="reg-senha2" name="senha2" type="password" autocomplete="new-password" required>
+
+        <p id="register-error" class="error" role="alert" hidden></p>
+        <button type="submit" class="btn btn-primary">CRIAR CONTA</button>
+      </form>
+    </section>
+
+    <!-- ===== Tela 01: lista de tarefas (RF04, RF05) ===== -->
+    <section id="view-list" class="view" aria-labelledby="list-title" hidden>
+      <div class="view-head">
+        <div>
+          <p class="eyebrow">01 · tela inicial</p>
+          <h1 id="list-title" tabindex="-1">Minhas tarefas</h1>
+          <p id="summary" class="summary"></p>
+        </div>
+        <button type="button" id="btn-new" class="btn btn-primary">+ NOVA TAREFA</button>
+      </div>
+
+      <ul id="task-list" class="task-list"></ul>
+      <p id="empty" class="empty" hidden>Nenhuma tarefa ainda. Use “+ Nova tarefa” para começar.</p>
+    </section>
+
+    <!-- ===== Tela 02: nova tarefa / editar (RF01, RF02, RF03) ===== -->
+    <section id="view-form" class="view" aria-labelledby="form-title" hidden>
+      <p class="eyebrow">02 · nova tarefa</p>
+      <h1 id="form-title" tabindex="-1">Nova tarefa</h1>
+
+      <form id="task-form" class="form" novalidate>
+        <label for="f-titulo">Título <span class="hint">*</span></label>
+        <input id="f-titulo" name="titulo" type="text" maxlength="100" required>
+
+        <label for="f-descricao">Descrição <span class="hint">(opcional)</span></label>
+        <textarea id="f-descricao" name="descricao" rows="4" maxlength="500"></textarea>
+
+        <label for="f-prazo">Prazo <span class="hint">*</span></label>
+        <input id="f-prazo" name="prazo" type="date" required>
+
+        <p id="form-error" class="error" role="alert" hidden></p>
+        <div class="actions">
+          <button type="submit" class="btn btn-primary">SALVAR</button>
+          <button type="button" id="btn-cancel" class="btn">CANCELAR</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===== Tela 03: detalhes (RF02, RF05, RF06) ===== -->
+    <section id="view-detail" class="view" aria-labelledby="detail-title" hidden>
+      <p class="eyebrow">03 · detalhes</p>
+      <h1 id="detail-title" tabindex="-1">Detalhes da tarefa</h1>
+
+      <dl class="details">
+        <dt>Título</dt>
+        <dd id="d-titulo"></dd>
+        <dt>Descrição</dt>
+        <dd id="d-descricao"></dd>
+        <dt>Prazo</dt>
+        <dd id="d-prazo"></dd>
+        <dt>Status</dt>
+        <dd id="d-status"></dd>
+      </dl>
+
+      <div class="actions">
+        <button type="button" id="btn-edit" class="btn">EDITAR</button>
+        <button type="button" id="btn-toggle" class="btn">CONCLUIR</button>
+        <button type="button" id="btn-delete" class="btn btn-danger">EXCLUIR</button>
+      </div>
+      <p><button type="button" id="btn-back" class="link">← Voltar para a lista</button></p>
+    </section>
+  </main>
+
+  <footer class="footer">TASKFLOW · ENGENHARIA DE SOFTWARE</footer>
+
+  <script src="js/storage.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
